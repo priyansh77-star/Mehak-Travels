@@ -1,38 +1,32 @@
 import { useState } from "react";
 
-function Manali({setShowManali}:any){
+function Manali({ setShowManali }: any) {
 
   const [booked, setBooked] = useState(false);
 
-  return(
+  return (
     <div className="home-container">
 
-      <h1> Manali Package</h1>
+      <h1>🏔️ Manali Package</h1>
 
       <p>
-        Adventure, Nature and Peace.
+        Adventure, Nature and Peace — all in Manali.
       </p>
 
-    <h2>  
-  Package Includes
-</h2>
+      <h2>Package Includes</h2>
 
-<p> Hotel Stay</p>
-<p> Daily Food</p>
-<p> Local Sightseeing</p>
-<p> Transport Service</p>
-<p> Guide Service</p>
-<p>Tracking </p>
-
-
+      <p>✔ Hotel Stay</p>
+      <p>✔ Daily Food</p>
+      <p>✔ Local Sightseeing</p>
+      <p>✔ Transport Service</p>
+      <p>✔ Guide Service</p>
+      <p>✔ Tracking</p>
 
       <h2>Price: ₹19,999</h2>
 
-
-      <button onClick={()=>setBooked(true)}>
+      <button onClick={() => setBooked(true)}>
         Book Now
       </button>
-
 
       {
         booked && (
@@ -42,11 +36,9 @@ function Manali({setShowManali}:any){
         )
       }
 
+      <br /><br />
 
-      <br/><br/>
-
-
-      <button onClick={()=>setShowManali(false)}>
+      <button onClick={() => setShowManali(false)}>
         ← Back To Destination
       </button>
 
