@@ -31,15 +31,15 @@ function Home({ setShowTransport }: any) {
   ];
 
   if (showManali) {
-    return <Manali />;
+    return <Manali setShowManali={setShowManali} />;
   }
 
   if (showKerala) {
-    return <Kerala />;
+    return <Kerala setShowKerala={setShowKerala} />;
   }
 
   if (showMumbai) {
-    return <Mumbai />;
+    return <Mumbai setShowMumbai={setShowMumbai} />;
   }
 
   return (
