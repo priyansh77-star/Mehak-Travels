@@ -32,6 +32,29 @@ function App() {
     setShowLogin(true);
   }
 
+  function handleLoginSubmit(emailInput: string, password: string) {
+    setShowLogin(false);
+    setShowHome(true);
+
+    fetch('http://localhost:5000/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        age,
+        gender,
+        email: emailInput,
+        packageType,
+        noOfTraveller,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .catch((err) => {
+        console.error('Failed to save booking:', err);
+      });
+  }
+
   if (showForm) {
     return (
       <div className="form-container">
@@ -64,10 +87,10 @@ function App() {
   }
 
   if (showLogin && !showHome) {
-  return (
-    <Login setShowHome={setShowHome} />
-  );
-}
+    return (
+      <Login setShowHome={setShowHome} onSubmit={handleLoginSubmit} />
+    );
+  }
 
   
 
