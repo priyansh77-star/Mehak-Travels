@@ -60,7 +60,7 @@ function App() {
       <div className="form-container">
         <div className="form">
 
-          <h2>Travel Booking Form</h2>
+          <h2>Mehak Travels Booking Form</h2>
 
           <Name name={name} setName={setName} />
           <Age age={age} setAge={setAge} />
