@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors');
 const connectDB = require('./db');
 const { getPaymentPage } = require('./payment');
 const { getServices } = require('./services');
@@ -8,7 +7,24 @@ const { getServices } = require('./services');
 const app = express();
 const PORT = 5000;
 
-app.use(cors());
+
+app.use((req, res, next) => {
+  try {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    if (req.method === 'OPTIONS') {
+      return res.sendStatus(204);
+    }
+
+    next();
+  } catch (err) {
+    console.error('CORS middleware error:', err);
+    res.status(500).json({ success: false, message: 'CORS error' });
+  }
+});
+
 app.use(express.json());
 
 let isDbReady = false;
