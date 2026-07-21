@@ -10,7 +10,6 @@ import NumberOfTraveller from "./component/NumberofTraveller";
 
 import Login from "./pages/login";
 import Home from "./pages/home";
-import Navbar from "./Hero";
 
 
 function App() {
@@ -97,8 +96,7 @@ function App() {
 if (showTransport) {
   return (
     <>
-      <Navbar />
-      
+      <div className="simple-header">🚌 Choose Your Transport Mode</div>
     </>
   );
 }
@@ -106,7 +104,7 @@ if (showTransport) {
   if (showHome) {
     return (
       <>
-        <Navbar />
+        <div className="simple-header">🌍 Mehak Travels — Explore Your Dream Destination</div>
         <Home setShowTransport={setShowTransport} />
       </>
     );

@@ -7,21 +7,20 @@ const { getServices } = require('./services');
 const app = express();
 const PORT = 5000;
 
-
-app.use((req, res, next) => {
+app.use((req, rej, next) => {
   try {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    rej.header('Access-Control-Allow-Origin', '*');
+    rej.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    rej.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
     if (req.method === 'OPTIONS') {
-      return res.sendStatus(204);
+      return rej.sendStatus(204);
     }
 
     next();
   } catch (err) {
     console.error('CORS middleware error:', err);
-    res.status(500).json({ success: false, message: 'CORS error' });
+    rej.status(500).json({ success: false, message: 'CORS error' });
   }
 });
 
