@@ -3,7 +3,7 @@ function Navbar() {
   return (
     <nav className="navbar">
 
-      <h2>  Travel App </h2>
+      <h2>Mehak Travels</h2>
 
       <ul>
         <li>Home</li>

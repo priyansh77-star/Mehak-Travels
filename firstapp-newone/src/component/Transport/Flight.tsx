@@ -11,11 +11,37 @@ function Flight() {
       <label>From</label>
       <br />
       <select>
+        <option>Select City</option>
         <option>Delhi</option>
         <option>Mumbai</option>
         <option>Bangalore</option>
         <option>Chandigarh</option>
         <option>Kolkata</option>
+        <option>Chennai</option>
+        <option>Hyderabad</option>
+        <option>Jaipur</option>
+        <option>Lucknow</option>
+        <option>Ahmedabad</option>
+        <option>Pune</option>
+        <option>Guwahati</option>
+        <option>Bhubaneswar</option>
+        <option>Kochi</option>
+        <option>Amritsar</option>
+        <option>Patna</option>
+        <option>Raipur</option>
+        <option>Nagpur</option>
+        <option>Indore</option>
+        <option>Bhopal</option>
+        <option>Dehradun</option>
+        <option>Ranchi</option>
+        <option>Varanasi</option>
+        <option>Agra</option>
+        <option>Udaipur</option>
+        <option>Goa</option>
+        <option>Manali</option>
+        <option>Shimla</option>
+        <option>Munnar</option>
+        <option>Alleppey</option>
       </select>
 
       <br /><br />
@@ -23,12 +49,37 @@ function Flight() {
       <label>To</label>
       <br />
       <select>
-        <option>Manali</option>
-        <option>Kerala</option>
+        <option>Select Destination</option>
+        <option>Delhi</option>
         <option>Mumbai</option>
+        <option>Bangalore</option>
+        <option>Chandigarh</option>
+        <option>Kolkata</option>
+        <option>Chennai</option>
+        <option>Hyderabad</option>
+        <option>Jaipur</option>
+        <option>Lucknow</option>
+        <option>Ahmedabad</option>
+        <option>Pune</option>
+        <option>Guwahati</option>
+        <option>Bhubaneswar</option>
+        <option>Kochi</option>
+        <option>Amritsar</option>
+        <option>Patna</option>
+        <option>Raipur</option>
+        <option>Nagpur</option>
+        <option>Indore</option>
+        <option>Bhopal</option>
+        <option>Dehradun</option>
+        <option>Ranchi</option>
+        <option>Varanasi</option>
+        <option>Agra</option>
+        <option>Udaipur</option>
         <option>Goa</option>
-        <option>Bali</option>
-        <option>Dubai</option>
+        <option>Manali</option>
+        <option>Shimla</option>
+        <option>Munnar</option>
+        <option>Alleppey</option>
       </select>
       <label>Choose Flight</label>
 <br />

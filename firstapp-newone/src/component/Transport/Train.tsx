@@ -58,7 +58,7 @@ function Train() {
 
       <label>Price</label>
       <br />
-      <input type="" />
+      <input type="text" placeholder="Enter price" />
 
       <br /><br />
       <label>Passengers</label>

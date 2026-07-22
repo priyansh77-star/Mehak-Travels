@@ -10,34 +10,60 @@ import NumberOfTraveller from "./component/NumberofTraveller";
 
 import Login from "./pages/login";
 import Home from "./pages/home";
-import Navbar from "./Hero";
-
 
 function App() {
+  // Navigation state: tracks which screen is active
+  const [currentPage, setCurrentPage] = useState<"form" | "login" | "home">("form");
 
-  const [showForm, setShowForm] = useState(true);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showHome, setShowHome] = useState(false);
-  const [showTransport, setShowTransport] = useState(false);
+  // Form input states
+  const [name, setName] = useState<string>("");
+  const [age, setAge] = useState<string>("");
+  const [gender, setGender] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [packageType, setPackageType] = useState<string>("");
+  const [noOfTraveller, setNoOfTraveller] = useState<string>("");
 
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [gender, setGender] = useState("");
-  const [email, setEmail] = useState("");
-  const [packageType, setPackageType] = useState("");
-  const [noOfTraveller, setNoOfTraveller] = useState("");
-
+  // Step 1: Move from Form to Login screen
   function submitForm() {
-    setShowForm(false);
-    setShowLogin(true);
+    if (!name || !email) {
+      alert("Please fill in at least your Name and Email!");
+      return;
+    }
+    setCurrentPage("login");
   }
 
-  if (showForm) {
+  // Step 2: Handle login submit and send booking data to backend server
+  function handleLoginSubmit(emailInput: string, password: string) {
+    setCurrentPage("home");
+
+    fetch("http://localhost:5000/api/bookings", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name,
+        age,
+        gender,
+        email: emailInput,
+        packageType,
+        noOfTraveller,
+        password,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Booking saved successfully:", data);
+      })
+      .catch((err) => {
+        console.error("Failed to save booking:", err);
+      });
+  }
+
+  // Render 1: Booking Form Screen
+  if (currentPage === "form") {
     return (
       <div className="form-container">
         <div className="form">
-
-          <h2>Travel Booking Form</h2>
+          <h2>Mehak Travels Booking Form</h2>
 
           <Name name={name} setName={setName} />
           <Age age={age} setAge={setAge} />
@@ -54,39 +80,25 @@ function App() {
             setNoOfTraveller={setNoOfTraveller}
           />
 
-          <button onClick={submitForm}>
-            Continue to Login
-          </button>
-
+          <button onClick={submitForm}>Continue to Login</button>
         </div>
       </div>
     );
   }
 
-  if (showLogin && !showHome) {
-  return (
-    <Login setShowHome={setShowHome} />
-  );
-}
-
-  
-
-if (showTransport) {
-  return (
-    <>
-      <Navbar />
-      
-    </>
-  );
-}
-
-  if (showHome) {
+  // Render 2: Login Screen
+  if (currentPage === "login") {
     return (
-      <>
-        <Navbar />
-        <Home setShowTransport={setShowTransport} />
-      </>
+      <Login
+        setShowHome={() => setCurrentPage("home")}
+        onSubmit={handleLoginSubmit}
+      />
     );
+  }
+
+  // Render 3: Home Page
+  if (currentPage === "home") {
+    return <Home />;
   }
 
   return null;
