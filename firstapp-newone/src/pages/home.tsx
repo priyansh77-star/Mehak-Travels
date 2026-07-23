@@ -6,6 +6,7 @@ import manaliImg from "../assets/manali.jpg";
 import goaImg from "../assets/goa.jpg";
 import keralaImg from "../assets/kerala.jpg";
 import mumbaiImg from "../assets/mumbai.jpg";
+import Navbar from "../component/Navbar";
 interface HomeProps {
   setShowTransport?: (value: boolean) => void;
 }
@@ -251,95 +252,109 @@ function Home({ setShowTransport }: HomeProps) {
     setShowPackageDetails(true);
   };
 
-  // ---------- Journey View ----------
-  if (showJourney) {
-    return <JourneySearch />;
-  }
+  // Function to render main content area
+  const renderContent = () => {
+    // ---------- Journey View ----------
+    if (showJourney) {
+      return <JourneySearch />;
+    }
 
-  // ---------- Package Details View ----------
-  if (showPackageDetails) {
-    return (
-      <PackageDetails
-        destination={packageDetailsTarget.destination}
-        city={packageDetailsTarget.city}
-        onBack={resetAll}
-      />
-    );
-  }
+    // ---------- Package Details View ----------
+    if (showPackageDetails) {
+      return (
+        <PackageDetails
+          destination={packageDetailsTarget.destination}
+          city={packageDetailsTarget.city}
+          onBack={resetAll}
+        />
+      );
+    }
 
-  // ---------- Cities View ----------
-  if (selectedState) {
-    const state = stateCities.find((item) => item.state === selectedState);
+    // ---------- Cities View ----------
+    if (selectedState) {
+      const state = stateCities.find((item) => item.state === selectedState);
 
-    return (
-      <div className="home-container">
-        <h1>{selectedState}</h1>
-        <p>Select any city to see available packages.</p>
+      return (
+        <div className="home-content">
+          <div className="home-container">
+            <h1>{selectedState}</h1>
+            <p>Select any city to see available packages.</p>
 
-        <div className="destination-container">
-          {state?.cities.map((city, index) => (
-            <div
-              className="destination-card"
-              key={index}
-              onClick={() => showPackagesFor(selectedState, city)}
-            >
-              <h3>{city}</h3>
-              <p>Click here to see packages</p>
+            <div className="destination-container">
+              {state?.cities.map((city, index) => (
+                <div
+                  className="destination-card"
+                  key={index}
+                  onClick={() => showPackagesFor(selectedState, city)}
+                >
+                  <h3>{city}</h3>
+                  <p>Click here to see packages</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
 
-        <button onClick={() => setSelectedState(null)}>Back</button>
+            <button onClick={() => setSelectedState(null)}>Back</button>
+          </div>
+        </div>
+      );
+    }
+
+    // ---------- Home Page ----------
+    return (
+      <div className="home-content">
+        <div className="home-container">
+          <h1>Welcome To Mehak Travels</h1>
+          <h2>Explore Your Dream Destination</h2>
+
+          <p>
+            Discover the best places to visit with exciting Mehak Travels packages
+            at affordable prices. Plan your trip with us and make your journey
+            memorable.
+          </p>
+
+          <button className="book-btn" onClick={() => setShowJourney(true)}>
+            Book Now
+          </button>
+
+          <h2 className="popular-heading">Popular Destinations</h2>
+
+          <div className="destination-container">
+            {destinations.map((item, index) => (
+              <div
+                key={index}
+                className="destination-card"
+                onClick={() => showPackagesFor(item.destKey, item.cityKey)}
+              >
+                <img src={item.image} alt={item.name} className="destination-image" />
+                <h3>{item.name}</h3>
+                <p>{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <h2 className="popular-heading">Explore States of India</h2>
+
+          <div className="destination-container">
+            {stateCities.map((item, index) => (
+              <div
+                key={index}
+                className="destination-card"
+                onClick={() => setSelectedState(item.state)}
+              >
+                <h3>{item.state}</h3>
+                <p>{item.cities.slice(0, 3).join(", ")}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
-  }
+  };
 
-  // ---------- Home Page ----------
   return (
-    <div className="home-container">
-      <h1>Welcome To Mehak Travels</h1>
-      <h2>Explore Your Dream Destination</h2>
-
-      <p>
-        Discover the best places to visit with exciting Mehak Travels packages
-        at affordable prices. Plan your trip with us and make your journey
-        memorable.
-      </p>
-
-      <button className="book-btn" onClick={() => setShowJourney(true)}>
-        Book Now
-      </button>
-
-      <h2 className="popular-heading">Popular Destinations</h2>
-
-      <div className="destination-container">
-        {destinations.map((item, index) => (
-          <div
-            key={index}
-            className="destination-card"
-            onClick={() => showPackagesFor(item.destKey, item.cityKey)}
-          >
-            <img src={item.image} alt={item.name} className="destination-image" />
-            <h3>{item.name}</h3>
-            <p>{item.desc}</p>
-          </div>
-        ))}
-      </div>
-
-      <h2 className="popular-heading">Explore States of India</h2>
-
-      <div className="destination-container">
-        {stateCities.map((item, index) => (
-          <div
-            key={index}
-            className="destination-card"
-            onClick={() => setSelectedState(item.state)}
-          >
-            <h3>{item.state}</h3>
-            <p>{item.cities.slice(0, 3).join(", ")}</p>
-          </div>
-        ))}
-      </div>
+    <div className="app-layout">
+      <Navbar />
+      {renderContent()}
     </div>
   );
 }
