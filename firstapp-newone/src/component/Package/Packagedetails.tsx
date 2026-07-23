@@ -78,8 +78,22 @@ type PackageDetailsProps = {
   onBack: () => void;
 };
 
+const destinationBackgrounds: Record<string, string> = {
+  Manali: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy3cYuzyj4_u20T9rmdVMrj9sQ3RcuW8P-a7fXLtKHUw&s=10')",
+  Goa: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiNiYKe3OziQyEEh6yoJltraLA0U2pLc6wgy2p9lmRqA&s=10')",
+  Mumbai: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSskNpgdJ2WkjEovxWGAtQGtFcaBrGKYhAcS4o8wUge4A&s=10')",
+};
+
 function PackageDetails({ destination, city, onBack }: PackageDetailsProps) {
   const [showBookingForm, setShowBookingForm] = useState(false);
+
+  // Determine background image based on destination or city name
+  const bgKey = Object.keys(destinationBackgrounds).find(
+    (key) =>
+      key.toLowerCase() === destination.toLowerCase() ||
+      key.toLowerCase() === city.toLowerCase()
+  );
+  const backgroundImage = bgKey ? destinationBackgrounds[bgKey] : "none";
 
   // Find matching packages — try destination name first, then city name
   const pkgKey = Object.keys(packages).find(
@@ -101,7 +115,8 @@ function PackageDetails({ destination, city, onBack }: PackageDetailsProps) {
   }
 
   return (
-    <div className="home-container">
+    <div className="home-container" style={{ backgroundImage, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed", minHeight: "100vh" }}>
+      <div style={{ backgroundColor: "rgba(255,255,255,0.85)", padding: "30px", borderRadius: "12px", maxWidth: "900px", margin: "0 auto" }}>
       <h1>
         {destination} - {city}
       </h1>
@@ -155,6 +170,7 @@ function PackageDetails({ destination, city, onBack }: PackageDetailsProps) {
       <br />
 
       <button onClick={onBack}>← Back</button>
+      </div>
     </div>
   );
 }

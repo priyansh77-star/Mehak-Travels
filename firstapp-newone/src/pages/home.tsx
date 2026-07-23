@@ -2,7 +2,10 @@ import { useState } from "react";
 import PackageDetails from "../component/Package/Packagedetails";
 import JourneySearch from "../component/Transport/Journeysearch";
 import TransportOptions from "../component/Transport/Transportoption";
-
+import manaliImg from "../assets/manali.jpg";
+import goaImg from "../assets/goa.jpg";
+import keralaImg from "../assets/kerala.jpg";
+import mumbaiImg from "../assets/mumbai.jpg";
 interface HomeProps {
   setShowTransport?: (value: boolean) => void;
 }
@@ -219,18 +222,21 @@ function Home({ setShowTransport }: HomeProps) {
       destKey: "Himachal Pradesh",
       cityKey: "Manali",
       desc: "Adventure, Nature and Peace. All in Manali.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTy3cYuzyj4_u20T9rmdVMrj9sQ3RcuW8P-a7fXLtKHUw&s=10",
     },
     {
       name: "Goa",
       destKey: "Goa",
       cityKey: "Goa",
       desc: "Beautiful beaches, nightlife and relaxed coastal vibes.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQiNiYKe3OziQyEEh6yoJltraLA0U2pLc6wgy2p9lmRqA&s=10",
     },
     {
       name: "Mumbai",
       destKey: "Maharashtra",
       cityKey: "Mumbai",
       desc: "City life, beaches and famous places.",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSskNpgdJ2WkjEovxWGAtQGtFcaBrGKYhAcS4o8wUge4A&s=10",
     },
   ];
 
@@ -313,6 +319,7 @@ function Home({ setShowTransport }: HomeProps) {
             className="destination-card"
             onClick={() => showPackagesFor(item.destKey, item.cityKey)}
           >
+            <img src={item.image} alt={item.name} className="destination-image" />
             <h3>{item.name}</h3>
             <p>{item.desc}</p>
           </div>
