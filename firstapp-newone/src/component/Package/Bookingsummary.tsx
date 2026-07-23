@@ -16,6 +16,7 @@ type BookingSummaryProps = {
     hotel: string;
   };
   onBackToHome: () => void;
+  onBackToForm?: () => void;
 };
 
 function BookingSummary({
@@ -23,6 +24,7 @@ function BookingSummary({
   city,
   formData,
   onBackToHome,
+  onBackToForm,
 }: BookingSummaryProps) {
   const [showPayment, setShowPayment] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -75,9 +77,11 @@ function BookingSummary({
         </button>
 
         <br />
-        <button onClick={() => setShowPayment(false)} style={{ marginTop: "4px" }}>
-          ← Back to Booking Form
-        </button>
+        {onBackToForm && (
+          <button onClick={onBackToForm} style={{ marginTop: "4px" }}>
+            ← Back to Booking Form
+          </button>
+        )}
 
       </div>
     </div>

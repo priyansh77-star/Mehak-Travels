@@ -64,6 +64,7 @@ function BookingForm({
         city={city}
         formData={formData}
         onBackToHome={onBackToHome}
+        onBackToForm={() => setShowSummary(false)}
       />
     );
   }
