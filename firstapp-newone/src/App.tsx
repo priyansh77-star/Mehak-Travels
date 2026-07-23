@@ -13,7 +13,7 @@ import Home from "./pages/home";
 
 function App() {
   // Navigation state: tracks which screen is active
-  const [currentPage, setCurrentPage] = useState<"form" | "login" | "home">("form");
+ const [currentPage, setCurrentPage] = useState<"login" | "form" | "home">("login");
 
   // Form input states
   const [name, setName] = useState<string>("");
@@ -23,18 +23,22 @@ function App() {
   const [packageType, setPackageType] = useState<string>("");
   const [noOfTraveller, setNoOfTraveller] = useState<string>("");
 
-  // Step 1: Move from Form to Login screen
+  // Stores credentials from login page
+  const [loginPassword, setLoginPassword] = useState<string>("");
+
+  // Step 1: Handle login - save email, password and go to booking form
+  function handleLoginSubmit(emailInput: string, password: string) {
+    setEmail(emailInput);
+    setLoginPassword(password);
+    setCurrentPage("form");
+  }
+
+  // Step 2: Submit booking form data to backend, then go to home
   function submitForm() {
     if (!name || !email) {
       alert("Please fill in at least your Name and Email!");
       return;
     }
-    setCurrentPage("login");
-  }
-
-  // Step 2: Handle login submit and send booking data to backend server
-  function handleLoginSubmit(emailInput: string, password: string) {
-    setCurrentPage("home");
 
     fetch("http://localhost:5000/api/bookings", {
       method: "POST",
@@ -43,18 +47,20 @@ function App() {
         name,
         age,
         gender,
-        email: emailInput,
+        email,
         packageType,
         noOfTraveller,
-        password,
+        password: loginPassword,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
         console.log("Booking saved successfully:", data);
+        setCurrentPage("home");
       })
       .catch((err) => {
         console.error("Failed to save booking:", err);
+        setCurrentPage("home");
       });
   }
 
@@ -80,7 +86,7 @@ function App() {
             setNoOfTraveller={setNoOfTraveller}
           />
 
-          <button onClick={submitForm}>Continue to Login</button>
+          <button onClick={submitForm}>Submit Booking</button>
         </div>
       </div>
     );
@@ -90,7 +96,6 @@ function App() {
   if (currentPage === "login") {
     return (
       <Login
-        setShowHome={() => setCurrentPage("home")}
         onSubmit={handleLoginSubmit}
       />
     );

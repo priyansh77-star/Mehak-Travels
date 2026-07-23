@@ -1,11 +1,9 @@
 import { useState } from "react";
-import type { Dispatch, SetStateAction } from "react";
+
 
 interface LoginProps {
-  setShowHome: Dispatch<SetStateAction<boolean>>;
   onSubmit: (email: string, password: string) => void;
 }
-
 function Login(props: LoginProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
