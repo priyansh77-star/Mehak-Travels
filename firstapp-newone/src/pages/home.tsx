@@ -23,197 +23,103 @@ function Home({ setShowTransport }: HomeProps) {
   const stateCities = [
     {
       state: "Andhra Pradesh",
-      cities: [
-        "Visakhapatnam",
-        "Vijayawada",
-        "Tirupati",
-        "Amaravati",
-        "Guntur",
-        "Nellore",
-      ],
+      image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400",
+      cities: ["Visakhapatnam", "Vijayawada", "Tirupati", "Amaravati", "Guntur", "Nellore"],
     },
     {
       state: "Arunachal Pradesh",
+      image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=400",
       cities: ["Itanagar", "Tawang", "Ziro", "Bomdila", "Pasighat"],
     },
     {
       state: "Assam",
+      image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=400",
       cities: ["Guwahati", "Tezpur", "Jorhat", "Silchar", "Haflong"],
     },
     {
       state: "Bihar",
+      image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400",
       cities: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga"],
     },
     {
       state: "Chhattisgarh",
-      cities: [
-        "Raipur",
-        "Bilaspur",
-        "Jagdalpur",
-        "Korba",
-        "Rajnandgaon",
-      ],
+      image: "https://images.unsplash.com/photo-1612160629320-3c5d1f6fc0b7?w=400",
+      cities: ["Raipur", "Bilaspur", "Jagdalpur", "Korba", "Rajnandgaon"],
     },
     {
       state: "Goa",
-      cities: [
-        "Panaji",
-        "Margao",
-        "Vasco da Gama",
-        "Mapusa",
-        "Anjuna",
-      ],
+      image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400",
+      cities: ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Anjuna"],
     },
     {
       state: "Gujarat",
-      cities: [
-        "Ahmedabad",
-        "Surat",
-        "Vadodara",
-        "Rajkot",
-        "Bhavnagar",
-        "Dwarka",
-      ],
+      image: "https://images.unsplash.com/photo-1599661046289-e31897846e41?w=400",
+      cities: ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Dwarka"],
     },
     {
       state: "Haryana",
-      cities: [
-        "Gurugram",
-        "Faridabad",
-        "Chandigarh",
-        "Hisar",
-        "Karnal",
-      ],
+      image: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400",
+      cities: ["Gurugram", "Faridabad", "Chandigarh", "Hisar", "Karnal"],
     },
     {
       state: "Himachal Pradesh",
-      cities: [
-        "Manali",
-        "Shimla",
-        "Dharamshala",
-        "Kullu",
-        "Spiti",
-        "Chamba",
-      ],
+      image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=400",
+      cities: ["Manali", "Shimla", "Dharamshala", "Kullu", "Spiti", "Chamba"],
     },
     {
       state: "Jharkhand",
-      cities: [
-        "Ranchi",
-        "Jamshedpur",
-        "Dhanbad",
-        "Deoghar",
-        "Hazaribagh",
-      ],
+      image: "https://images.unsplash.com/photo-1580136579312-94651dfd596d?w=400",
+      cities: ["Ranchi", "Jamshedpur", "Dhanbad", "Deoghar", "Hazaribagh"],
     },
     {
       state: "Karnataka",
-      cities: [
-        "Bengaluru",
-        "Mysuru",
-        "Mangaluru",
-        "Hubballi",
-        "Coorg",
-        "Hampi",
-      ],
+      image: "https://images.unsplash.com/photo-1596178060810-72680e16d5d1?w=400",
+      cities: ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi", "Coorg", "Hampi"],
     },
     {
       state: "Kerala",
-      cities: [
-        "Kochi",
-        "Alleppey",
-        "Munnar",
-        "Kumarakom",
-        "Thekkady",
-        "Kovalam",
-      ],
+      image: "https://images.unsplash.com/photo-1593693397690-362cb9666fc2?w=400",
+      cities: ["Kochi", "Alleppey", "Munnar", "Kumarakom", "Thekkady", "Kovalam"],
     },
     {
       state: "Madhya Pradesh",
-      cities: [
-        "Bhopal",
-        "Indore",
-        "Gwalior",
-        "Jabalpur",
-        "Ujjain",
-        "Khajuraho",
-      ],
+      image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400",
+      cities: ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Khajuraho"],
     },
     {
       state: "Maharashtra",
-      cities: [
-        "Mumbai",
-        "Pune",
-        "Mahabaleshwar",
-        "Nashik",
-        "Aurangabad",
-        "Nagpur",
-      ],
+      image: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=400",
+      cities: ["Mumbai", "Pune", "Mahabaleshwar", "Nashik", "Aurangabad", "Nagpur"],
     },
     {
       state: "Punjab",
-      cities: [
-        "Amritsar",
-        "Ludhiana",
-        "Jalandhar",
-        "Chandigarh",
-        "Patiala",
-      ],
+      image: "https://images.unsplash.com/photo-1587847064884-3e6e1a1b5e5e?w=400",
+      cities: ["Amritsar", "Ludhiana", "Jalandhar", "Chandigarh", "Patiala"],
     },
     {
       state: "Rajasthan",
-      cities: [
-        "Jaipur",
-        "Udaipur",
-        "Jodhpur",
-        "Jaisalmer",
-        "Bikaner",
-        "Mount Abu",
-      ],
+      image: "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=400",
+      cities: ["Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner", "Mount Abu"],
     },
     {
       state: "Tamil Nadu",
-      cities: [
-        "Chennai",
-        "Coimbatore",
-        "Madurai",
-        "Ooty",
-        "Kodaikanal",
-        "Rameswaram",
-      ],
+      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400",
+      cities: ["Chennai", "Coimbatore", "Madurai", "Ooty", "Kodaikanal", "Rameswaram"],
     },
     {
       state: "Uttar Pradesh",
-      cities: [
-        "Lucknow",
-        "Agra",
-        "Varanasi",
-        "Prayagraj",
-        "Noida",
-        "Ayodhya",
-      ],
+      image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=400",
+      cities: ["Lucknow", "Agra", "Varanasi", "Prayagraj", "Noida", "Ayodhya"],
     },
     {
       state: "Uttarakhand",
-      cities: [
-        "Dehradun",
-        "Nainital",
-        "Mussoorie",
-        "Rishikesh",
-        "Haridwar",
-        "Auli",
-      ],
+      image: "https://images.unsplash.com/photo-1598887142483-47a1d9089d6f?w=400",
+      cities: ["Dehradun", "Nainital", "Mussoorie", "Rishikesh", "Haridwar", "Auli"],
     },
     {
       state: "West Bengal",
-      cities: [
-        "Kolkata",
-        "Darjeeling",
-        "Durgapur",
-        "Siliguri",
-        "Shantiniketan",
-        "Kalimpong",
-      ],
+      image: "https://images.unsplash.com/photo-1599726689145-3d2e5a5e4e7e?w=400",
+      cities: ["Kolkata", "Darjeeling", "Durgapur", "Siliguri", "Shantiniketan", "Kalimpong"],
     },
   ];
 
@@ -341,6 +247,7 @@ function Home({ setShowTransport }: HomeProps) {
                 className="destination-card"
                 onClick={() => setSelectedState(item.state)}
               >
+                <img src={item.image} alt={item.state} className="destination-image" />
                 <h3>{item.state}</h3>
                 <p>{item.cities.slice(0, 3).join(", ")}</p>
               </div>
