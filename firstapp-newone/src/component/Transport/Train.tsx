@@ -3,7 +3,7 @@ function Train() {
   return (
     <div className="home-container">
 
-      <h1>🚆 Train Booking</h1>
+      <h1> Train Booking</h1>
 
       <h2>Journey Details</h2>
 

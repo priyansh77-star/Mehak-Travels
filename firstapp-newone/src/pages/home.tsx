@@ -23,7 +23,7 @@ function Home({ setShowTransport }: HomeProps) {
   const stateCities = [
     {
       state: "Andhra Pradesh",
-      image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoTj3BCZ-ZXz1QY3KPsaP32pSnzC0YO3BzJ37ydfe97Q&s=10",
       cities: ["Visakhapatnam", "Vijayawada", "Tirupati", "Amaravati", "Guntur", "Nellore"],
     },
     {
@@ -33,17 +33,17 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Assam",
-      image: "https://images.unsplash.com/photo-1566837945700-30057527ade0?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYk-D74SUQJIEilCGHsGcVOEaz2aXQ3fuO4wgBPelEdg&s=10",
       cities: ["Guwahati", "Tezpur", "Jorhat", "Silchar", "Haflong"],
     },
     {
       state: "Bihar",
-      image: "https://images.unsplash.com/photo-1599566150163-29194dcaad36?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8muzauh0htP4QHEUSkJ5E4xSTbzkmIf8QVFTU6no0qg&s=10",
       cities: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga"],
     },
     {
       state: "Chhattisgarh",
-      image: "https://images.unsplash.com/photo-1612160629320-3c5d1f6fc0b7?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0MQNjyr7LRcxMKOZS9MoZNiAU9HLvx2t5cm_EP82RYw&s=10",
       cities: ["Raipur", "Bilaspur", "Jagdalpur", "Korba", "Rajnandgaon"],
     },
     {
@@ -58,7 +58,7 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Haryana",
-      image: "https://images.unsplash.com/photo-1595078475328-1ab05d0a6a0e?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4swPG6LyjPuQn6Ps8WcmG8PDZb0X3TYfD2JlnOrNJjQ&s=10",
       cities: ["Gurugram", "Faridabad", "Chandigarh", "Hisar", "Karnal"],
     },
     {
@@ -73,7 +73,7 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Karnataka",
-      image: "https://images.unsplash.com/photo-1596178060810-72680e16d5d1?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShi2rRL3NScaj9qlE4jKBhzYLM2JQJZUHIqD8An9uOnw&s=10",
       cities: ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi", "Coorg", "Hampi"],
     },
     {
@@ -83,7 +83,7 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Madhya Pradesh",
-      image: "https://images.unsplash.com/photo-1587474260584-136574528ed5?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg6P12JjyPUHaGmEpWju74IvaASK25FZRsBCkttimd4Q&s=10",
       cities: ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Khajuraho"],
     },
     {
@@ -93,17 +93,17 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Punjab",
-      image: "https://images.unsplash.com/photo-1587847064884-3e6e1a1b5e5e?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6XAm9wfR5iMQfXUhlq3aK9YgsXP2jUbes68daIMB0nA&s",
       cities: ["Amritsar", "Ludhiana", "Jalandhar", "Chandigarh", "Patiala"],
     },
     {
       state: "Rajasthan",
-      image: "https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ3Y2ebTaO1Rx_UOXy560q5kPFY8qJcA4iIVGEA3axUQ&s",
       cities: ["Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner", "Mount Abu"],
     },
     {
       state: "Tamil Nadu",
-      image: "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPahOiKaAWOrpNwSTUg_xUZYer_PHFdBWOk4rXTN3wYQ&s=10",
       cities: ["Chennai", "Coimbatore", "Madurai", "Ooty", "Kodaikanal", "Rameswaram"],
     },
     {
@@ -113,12 +113,12 @@ function Home({ setShowTransport }: HomeProps) {
     },
     {
       state: "Uttarakhand",
-      image: "https://images.unsplash.com/photo-1598887142483-47a1d9089d6f?w=400",
+      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQHjYkWeNjN3Z7mgdqmo1A2p4HyyHLkNvYshuaj_vUw&s=10",
       cities: ["Dehradun", "Nainital", "Mussoorie", "Rishikesh", "Haridwar", "Auli"],
     },
     {
       state: "West Bengal",
-      image: "https://images.unsplash.com/photo-1599726689145-3d2e5a5e4e7e?w=400",
+      image: "https://s7ap1.scene7.com/is/image/incredibleindia/lord-buddha-statue-2-kalimpong-wb-city-hero?qlt=82&ts=1726645084728",
       cities: ["Kolkata", "Darjeeling", "Durgapur", "Siliguri", "Shantiniketan", "Kalimpong"],
     },
   ];
