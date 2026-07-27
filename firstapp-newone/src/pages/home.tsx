@@ -11,10 +11,11 @@ interface HomeProps {
   setShowTransport?: (value: boolean) => void;
 }
 
-function Home({ setShowTransport }: HomeProps) {
+function Home({ setShowTransport, onNavigate, currentPage, user }: HomeProps & { onNavigate?: (page: "home" | "profile") => void; currentPage?: string; user?: { name: string; email: string } | null }) {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [showJourney, setShowJourney] = useState(false);
   const [showPackageDetails, setShowPackageDetails] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [packageDetailsTarget, setPackageDetailsTarget] = useState<{
     destination: string;
     city: string;
@@ -149,8 +150,15 @@ function Home({ setShowTransport }: HomeProps) {
 
   const resetAll = () => {
     setSelectedState(null);
+    setShowJourney(false);
     setShowPackageDetails(false);
+    setSearchQuery("");
     setPackageDetailsTarget({ destination: "", city: "" });
+  };
+
+  const handleHomeClick = () => {
+    resetAll();
+    if (onNavigate) onNavigate("home");
   };
 
   const showPackagesFor = (destination: string, city: string) => {
@@ -241,7 +249,11 @@ function Home({ setShowTransport }: HomeProps) {
           <h2 className="popular-heading">Explore States of India</h2>
 
           <div className="destination-container">
-            {stateCities.map((item, index) => (
+            {stateCities
+              .filter((item) =>
+                item.state.toLowerCase().includes(searchQuery.toLowerCase())
+              )
+              .map((item, index) => (
               <div
                 key={index}
                 className="destination-card"
@@ -260,7 +272,14 @@ function Home({ setShowTransport }: HomeProps) {
 
   return (
     <div className="app-layout">
-      <Navbar />
+      <Navbar
+        onNavigate={onNavigate || (() => {})}
+        currentPage={currentPage || "home"}
+        searchQuery={searchQuery}
+        onSearchChange={setSearchQuery}
+        showSearch={!selectedState && !showJourney && !showPackageDetails}
+        onHomeClick={handleHomeClick}
+      />
       {renderContent()}
     </div>
   );

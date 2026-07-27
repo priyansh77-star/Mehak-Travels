@@ -6,6 +6,7 @@ function JourneySearch() {
   const [date, setDate] = useState("");
 
   return (
+    <div className="home-content">
     <div className="home-container">
 
       <h1>Journey Search</h1>
@@ -50,6 +51,7 @@ function JourneySearch() {
 
       <button>Search</button>
 
+    </div>
     </div>
   );
 }

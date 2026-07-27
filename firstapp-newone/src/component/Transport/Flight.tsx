@@ -2,6 +2,7 @@ function Flight() {
 
   return (
 
+    <div className="home-content">
     <div className="home-container">
 
       <h1> Flight Booking</h1>
@@ -116,7 +117,7 @@ function Flight() {
       </button>
 
     </div>
-
+    </div>
   );
 }
 

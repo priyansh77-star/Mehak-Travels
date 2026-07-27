@@ -463,61 +463,63 @@ function PackageDetails({ destination, city, onBack }: PackageDetailsProps) {
   }
 
   return (
-    <div className="home-container" style={{ backgroundImage, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed", minHeight: "100vh" }}>
-      <div style={{ backgroundColor: "rgba(255,255,255,0.85)", padding: "30px", borderRadius: "12px", maxWidth: "900px", margin: "0 auto" }}>
-      <h1>
-        {destination} - {city}
-      </h1>
+    <div className="home-content" style={{ backgroundImage, backgroundSize: "cover", backgroundPosition: "center", backgroundAttachment: "fixed", minHeight: "100vh" }}>
+      <div className="home-container">
+        <div style={{ backgroundColor: "rgba(255,255,255,0.85)", padding: "30px", borderRadius: "12px", maxWidth: "900px", margin: "0 auto" }}>
+        <h1>
+          {destination} - {city}
+        </h1>
 
-      {pkgList && pkgList.length > 0 ? (
-        <>
-          <h2>Available Packages</h2>
+        {pkgList && pkgList.length > 0 ? (
+          <>
+            <h2>Available Packages</h2>
 
-          <div className="destination-container">
-            {pkgList.map((pkg, index) => (
-              <div key={index} className="destination-card">
-                <h3>{pkg.name}</h3>
-                <p>
-                  <strong>Price:</strong> {pkg.price}
-                </p>
-                <p>
-                  <strong>Duration:</strong> {pkg.duration}
-                </p>
-                <p>
-                  <strong>Hotel:</strong> {pkg.hotel}
-                </p>
-                <p>
-                  <strong>Transport:</strong> {pkg.transport}
-                </p>
-                <p>
-                  <strong>Meals:</strong> {pkg.meals}
-                </p>
+            <div className="destination-container">
+              {pkgList.map((pkg, index) => (
+                <div key={index} className="destination-card">
+                  <h3>{pkg.name}</h3>
+                  <p>
+                    <strong>Price:</strong> {pkg.price}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> {pkg.duration}
+                  </p>
+                  <p>
+                    <strong>Hotel:</strong> {pkg.hotel}
+                  </p>
+                  <p>
+                    <strong>Transport:</strong> {pkg.transport}
+                  </p>
+                  <p>
+                    <strong>Meals:</strong> {pkg.meals}
+                  </p>
 
-                <br />
+                  <br />
 
-                <button onClick={() => setShowBookingForm(true)}>
-                  Book Now
-                </button>
-              </div>
-            ))}
-          </div>
-        </>
-      ) : (
-        <>
-          <p>Explore our packages for {destination} - {city}.</p>
-          <p>Contact us for customized package details!</p>
+                  <button onClick={() => setShowBookingForm(true)}>
+                    Book Now
+                  </button>
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <>
+            <p>Explore our packages for {destination} - {city}.</p>
+            <p>Contact us for customized package details!</p>
 
-          <br />
+            <br />
 
-          <button onClick={() => setShowBookingForm(true)}>
-            Continue to Book
-          </button>
-        </>
-      )}
+            <button onClick={() => setShowBookingForm(true)}>
+              Continue to Book
+            </button>
+          </>
+        )}
 
-      <br />
+        <br />
 
-      <button onClick={onBack}>← Back</button>
+        <button onClick={onBack}>← Back</button>
+        </div>
       </div>
     </div>
   );

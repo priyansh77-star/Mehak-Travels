@@ -1,6 +1,7 @@
 function Train() {
 
   return (
+    <div className="home-content">
     <div className="home-container">
 
       <h1> Train Booking</h1>
@@ -75,6 +76,7 @@ function Train() {
         Book Train
       </button>
 
+    </div>
     </div>
   );
 }

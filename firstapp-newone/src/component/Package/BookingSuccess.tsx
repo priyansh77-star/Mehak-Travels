@@ -10,6 +10,7 @@ function BookingSuccess({
   onBackToHome,
 }: BookingSuccessProps) {
   return (
+    <div className="home-content">
     <div className="form-container">
       <div className="form">
 
@@ -45,6 +46,7 @@ function BookingSuccess({
         </button>
 
       </div>
+    </div>
     </div>
   );
 }

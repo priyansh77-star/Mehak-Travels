@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+Backend/node_modules/
+firstapp-newone/node_modules/
+
+# Build
+build/
+dist/
+
+# MongoDB local data
+local-data/
+*.db
+
+# Environment
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+
+# Coverage
+coverage/
+

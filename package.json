@@ -9,5 +9,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/priyansh77-star/Mehak-Travels.git"
+  },
+  "bugs": {
+    "url": "https://github.com/priyansh77-star/Mehak-Travels/issues"
+  },
+  "homepage": "https://github.com/priyansh77-star/Mehak-Travels#readme"
 }

@@ -70,6 +70,7 @@ function BookingForm({
   }
 
   return (
+    <div className="home-content">
     <div className="form-container">
       <div className="form">
 
@@ -168,6 +169,7 @@ function BookingForm({
         )}
 
       </div>
+    </div>
     </div>
   );
 }

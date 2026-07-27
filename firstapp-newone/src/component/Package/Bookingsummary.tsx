@@ -29,6 +29,35 @@ function BookingSummary({
   const [showPayment, setShowPayment] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
 
+  const handlePaymentSuccess = async () => {
+    // Save booking to backend
+    try {
+      const res = await fetch("http://localhost:5000/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.fullName,
+          email: formData.email,
+          age: "",
+          gender: "",
+          packageType: `${destination} - ${city}`,
+          noOfTraveller: String(formData.numberOfTravellers),
+          password: "",
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.error("Failed to save booking:", data.message);
+      } else {
+        console.log("Booking saved successfully:", data.booking?._id);
+      }
+    } catch (err) {
+      console.error("Failed to save booking:", err);
+    }
+    setShowPayment(false);
+    setShowSuccess(true);
+  };
+
   if (showSuccess) {
     return (
       <BookingSuccess
@@ -44,16 +73,14 @@ function BookingSummary({
       <Payment
         destination={destination}
         city={city}
-        onPaymentSuccess={() => {
-          setShowPayment(false);
-          setShowSuccess(true);
-        }}
+        onPaymentSuccess={handlePaymentSuccess}
         onBack={() => setShowPayment(false)}
       />
     );
   }
 
-  return (
+return (
+    <div className="home-content">
     <div className="form-container">
       <div className="form">
 
@@ -83,7 +110,8 @@ function BookingSummary({
           </button>
         )}
 
-      </div>
+</div>
+    </div>
     </div>
   );
 }

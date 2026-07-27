@@ -1,5 +1,6 @@
 function TransportOptions() {
   return (
+    <div className="home-content">
     <div className="home-container">
 
       <h1>Select Transport</h1>
@@ -26,6 +27,7 @@ function TransportOptions() {
         <button>Book Bus</button>
       </div>
 
+    </div>
     </div>
   );
 }

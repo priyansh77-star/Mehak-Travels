@@ -1,6 +1,7 @@
 function Bus() {
 
   return (
+    <div className="home-content">
     <div className="home-container">
 
       <h1>  Bus Booking </h1>
@@ -68,6 +69,7 @@ function Bus() {
         Book Bus
       </button>
 
+    </div>
     </div>
   );
 }

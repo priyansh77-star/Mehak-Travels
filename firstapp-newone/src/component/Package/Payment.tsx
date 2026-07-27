@@ -17,6 +17,7 @@ function Payment({
   const [cvv, setCvv] = useState("");
 
   return (
+    <div className="home-content">
     <div className="home-container">
       <h2>Payment</h2>
       <p>Complete your booking for {city} in {destination}.</p>
@@ -72,6 +73,7 @@ function Payment({
           Back
         </button>
       </div>
+    </div>
     </div>
   );
 }
