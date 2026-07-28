@@ -21,7 +21,7 @@ function Payment({
       <h2>Payment</h2>
       <p>Complete your booking for {city} in {destination}.</p>
 
-      <div className="form" style={{ maxWidth: "420px", margin: "0 auto", textAlign: "left" }}>
+<div className="form" style={{ maxWidth: "420px", margin: "0 auto" }}>
         <h3>Trip Summary</h3>
         <p><strong>Destination:</strong> {destination}</p>
         <p><strong>City:</strong> {city}</p>

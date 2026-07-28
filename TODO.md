@@ -1,23 +1,18 @@
-# Fix "error in package details" - Implementation Plan
+# Task: Update Package Data
 
-## Steps
+## Changes to firstapp-newone/src/component/Package/Packagedetails.tsx
 
-1. **Fix `Packagedetails.tsx`** —
-   - Export the `packages` data as a named export
-   - Create and export a `PackageDetails` React component that accepts `{ destination, city, onBookNow, onBack }` props
-   - The component shows package options with price, duration, hotel, transport, meals
+### Step 1: Remove `transport` field from the type definition
+- Edit line 3 to remove `transport: string;` from the type interface
 
-2. **Fix `home.tsx`** —
-   - Remove unused states: `selectedPackage`, `showPackageDetails`
-   - Fix `setShowTransport` prop - make it optional so it doesn't crash
-   - Import `PackageDetails` component
-   - Show PackageDetails when user selects a city (before going to BookingForm)
-   - Show PackageDetails for popular destinations (Manali, Kerala, Mumbai, Goa) before direct booking
+### Step 2: Normalize all price strings to "9999 per person" format
+- Remove ₹ symbol and commas from prices
+- Ensure all prices have "per person" suffix
+- Example: `"₹12,999 per person"` → `"12999 per person"`, `"₹12,999"` → `"12999 per person"`
 
-3. **Verify build** — Run `npx react-scripts build` to confirm zero errors
+### Step 3: Remove `transport` field from every package object
+- Remove `transport: "Bus"`, `transport: "Flight"`, etc. from all entries
 
-## Status
-- [x] Step 1: Fix Packagedetails.tsx — Converted to proper React component with data export
-- [x] Step 2: Fix home.tsx — Removed unused states, added PackageDetails integration, fixed Book Now crash
-- [x] Step 3: Verify build — **Compiled successfully!**
+### Step 4: Remove transport display line in JSX
+- Remove `<p><b>Transport:</b> {pkg.transport}</p>`
 

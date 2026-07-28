@@ -97,6 +97,7 @@ body{
   margin-left: 220px;
   flex: 1;
   padding: 24px;
+  text-align: center;
 }
 
 
@@ -220,6 +221,7 @@ body{
     padding:25px;
     border-radius:10px;
     box-shadow:0 0 10px gray;
+    text-align: center;
 }
 
 
@@ -228,11 +230,26 @@ body{
     margin-bottom:20px;
 }
 
+.form h3 {
+    text-align: center;
+    margin: 12px 0;
+}
+
+.form p {
+    text-align: center;
+    margin: 8px 0;
+}
+
+.form hr {
+    margin: 16px auto;
+    width: 80%;
+}
 
 .form label{
     display:block;
     margin-top:12px;
     font-weight:bold;
+    text-align:center;
 }
 
 
@@ -424,4 +441,71 @@ button {
 .destination-card p {
   text-align: center;
   padding: 0 10px 15px;
+}
+
+/* Packages section (Basic & Premium cards) */
+section {
+  text-align: center;
+  padding: 20px;
+}
+
+section h2 {
+  text-align: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.card {
+  width: 280px;
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+.card h3 {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.card .price {
+  text-align: center;
+  font-size: 22px;
+  font-weight: bold;
+  color: #2e7d32;
+  margin: 10px 0;
+}
+
+.card p {
+  text-align: center;
+  margin: 8px 0;
+  line-height: 1.5;
+}
+
+.card .note {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  font-style: italic;
+}
+
+.card button {
+  display: block;
+  margin: 15px auto 0;
+  padding: 12px 30px;
+  font-size: 16px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
 }
