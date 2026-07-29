@@ -1,10 +1,18 @@
-# Task Progress - Completed ✅
+# Task: Update Package Data
 
-## Tasks
-- [x] Step 1: Backend - Add `GET /api/user/:email` endpoint
-- [x] Step 2: Navbar.tsx - Accept props, make links clickable, add search bar
-- [x] Step 3: Home.tsx - Add search functionality, pass props to Navbar
-- [x] Step 4: App.tsx - Add profile page routing with user data
-- [x] Step 5: profile.tsx - Fetch user data from backend API
-- [x] Step 6: App.css - Add search bar styles
+## Changes to firstapp-newone/src/component/Package/Packagedetails.tsx
+
+### Step 1: Remove `transport` field from the type definition
+- Edit line 3 to remove `transport: string;` from the type interface
+
+### Step 2: Normalize all price strings to "9999 per person" format
+- Remove ₹ symbol and commas from prices
+- Ensure all prices have "per person" suffix
+- Example: `"₹12,999 per person"` → `"12999 per person"`, `"₹12,999"` → `"12999 per person"`
+
+### Step 3: Remove `transport` field from every package object
+- Remove `transport: "Bus"`, `transport: "Flight"`, etc. from all entries
+
+### Step 4: Remove transport display line in JSX
+- Remove `<p><b>Transport:</b> {pkg.transport}</p>`
 

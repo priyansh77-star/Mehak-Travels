@@ -1,11 +1,14 @@
 import { useState } from "react";
 import Payment from "./Payment";
 import BookingSuccess from "./BookingSuccess";
+import { getCityPrices, getRoutePrice } from "./transportPrices";
 
 type BookingSummaryProps = {
   destination: string;
   city: string;
   formData: {
+    fromDestination: string;
+    toDestination: string;
     fullName: string;
     email: string;
     phone: string;
@@ -14,6 +17,9 @@ type BookingSummaryProps = {
     numberOfTravellers: number;
     transport: string;
     hotel: string;
+    packageName?: string;
+    packagePrice?: string;
+    packageNumericPrice?: number;
   };
   onBackToHome: () => void;
   onBackToForm?: () => void;
@@ -28,35 +34,6 @@ function BookingSummary({
 }: BookingSummaryProps) {
   const [showPayment, setShowPayment] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-
-  const handlePaymentSuccess = async () => {
-    // Save booking to backend
-    try {
-      const res = await fetch("http://localhost:5000/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formData.fullName,
-          email: formData.email,
-          age: "",
-          gender: "",
-          packageType: `${destination} - ${city}`,
-          noOfTraveller: String(formData.numberOfTravellers),
-          password: "",
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        console.error("Failed to save booking:", data.message);
-      } else {
-        console.log("Booking saved successfully:", data.booking?._id);
-      }
-    } catch (err) {
-      console.error("Failed to save booking:", err);
-    }
-    setShowPayment(false);
-    setShowSuccess(true);
-  };
 
   if (showSuccess) {
     return (
@@ -73,29 +50,58 @@ function BookingSummary({
       <Payment
         destination={destination}
         city={city}
-        onPaymentSuccess={handlePaymentSuccess}
+        onPaymentSuccess={() => {
+          setShowPayment(false);
+          setShowSuccess(true);
+        }}
         onBack={() => setShowPayment(false)}
       />
     );
   }
 
 return (
-    <div className="home-content">
     <div className="form-container">
       <div className="form">
 
         <h2>Booking Summary</h2>
 
-        <p><b>Destination:</b> {destination}</p>
-        <p><b>City:</b> {city}</p>
+        {formData.packageName && (
+          <div style={{ backgroundColor: "#e8f5e9", border: "1px solid #4caf50", borderRadius: "8px", padding: "12px", margin: "10px 0", textAlign: "center" }}>
+            <p style={{ margin: 0, textAlign: "center" }}><b>Package:</b> {formData.packageName}</p>
+            <p style={{ margin: 0, textAlign: "center" }}><b>Package Price:</b> {formData.packagePrice}</p>
+          </div>
+        )}
+
+<p><b>From:</b> {formData.fromDestination || destination}</p>
+        <p><b>To:</b> {formData.toDestination || city}</p>
         <p><b>Name:</b> {formData.fullName}</p>
         <p><b>Email:</b> {formData.email}</p>
         <p><b>Phone:</b> {formData.phone}</p>
         <p><b>Travel Date:</b> {formData.travelDate}</p>
         <p><b>Return Date:</b> {formData.returnDate}</p>
         <p><b>Travellers:</b> {formData.numberOfTravellers}</p>
-        <p><b>Transport:</b> {formData.transport}</p>
+<p><b>Transport:</b> {formData.transport} - ₹{getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>]?.toLocaleString() || 0}/person</p>
         <p><b>Hotel:</b> {formData.hotel}</p>
+
+        <hr style={{ margin: "16px 0" }} />
+
+        <h3>💰 Price Breakdown</h3>
+        {formData.packageNumericPrice && formData.packageNumericPrice > 0 ? (
+          <>
+            <p><b>Package Price ({formData.numberOfTravellers} × ₹{formData.packageNumericPrice.toLocaleString()}):</b> ₹{(formData.packageNumericPrice * formData.numberOfTravellers).toLocaleString()}</p>
+            <p><b>Transport Cost ({formData.numberOfTravellers} × ₹{getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>]?.toLocaleString() || 0}):</b> ₹{((getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>] || 0) * formData.numberOfTravellers).toLocaleString()}</p>
+            <p style={{ fontSize: "18px", fontWeight: "bold", color: "#2e7d32" }}>
+              <b>Total (Package + Transport):</b> ₹{((formData.packageNumericPrice * formData.numberOfTravellers) + ((getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>] || 0) * formData.numberOfTravellers)).toLocaleString()}
+            </p>
+          </>
+        ) : (
+          <>
+            <p><b>Total Transport:</b> ₹{((getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>] || 0) * formData.numberOfTravellers).toLocaleString()}</p>
+            <p style={{ fontSize: "18px", fontWeight: "bold", color: "#2e7d32" }}>
+              <b>Total Price:</b> ₹{((getCityPrices(formData.toDestination || city)[formData.transport as keyof ReturnType<typeof getCityPrices>] || 0) * formData.numberOfTravellers).toLocaleString()}
+            </p>
+          </>
+        )}
 
         <br />
 
@@ -110,8 +116,7 @@ return (
           </button>
         )}
 
-</div>
-    </div>
+      </div>
     </div>
   );
 }

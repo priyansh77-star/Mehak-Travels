@@ -18,16 +18,12 @@ onChange={(e)=>props.setPackageType(e.target.value)}
 --Select Travel Package--
 </option>
 
-<option value="Basic - ₹5000">
-Basic Package - ₹15000
+<option value="Basic - ₹9999">
+Basic Package - From ₹9,999
 </option>
 
-<option value="Standard - ₹10000">
-Standard Package - ₹30000
-</option>
-
-<option value="Premium - ₹15000">
-Premium Package - ₹50000
+<option value="Premium - ₹18999">
+Premium Package - From ₹18,999
 </option>
 
 </select>
