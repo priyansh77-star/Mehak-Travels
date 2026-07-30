@@ -1,38 +1,21 @@
 const mongoose = require('mongoose');
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
-let mongoServer = null;
 
 const connectDB = async () => {
   try {
-    // If MONGO_URI is set externally (e.g. production), use that
-    if (process.env.MONGO_URI) {
-      await mongoose.connect(process.env.MONGO_URI);
-      console.log('MongoDB connected (external URI)');
-      return;
-    }
+    const connUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/mehak_travels';
 
-    // Use a persistent local db path so data survives restarts
-    const dbPath = require('path').join(__dirname, '..', 'local-data');
-    mongoServer = await MongoMemoryServer.create({
-      instance: {
-        dbPath,
-        storageEngine: 'wiredTiger',
-      },
-    });
-    const mongoUri = mongoServer.getUri();
-    await mongoose.connect(mongoUri);
-    console.log(`MongoDB connected (persistent at ${dbPath})`);
+    const conn = await mongoose.connect(connUri);
+
+    console.log('=================================================');
+    console.log(`✅ MongoDB Connected Successfully!`);
+    console.log(`   Host: ${conn.connection.host}`);
+    console.log(`   Database Name: ${conn.connection.name}`);
+    console.log('=================================================');
   } catch (error) {
-    console.error('MongoDB connection error:', error);
+    console.error(`❌ MongoDB Connection Error: ${error.message}`);
+    console.error('   Ensure local MongoDB service is running on port 27017.');
     process.exit(1);
   }
 };
-
-// Cleanup in-memory server on exit
-process.on('SIGINT', async () => {
-  if (mongoServer) await mongoServer.stop();
-  process.exit(0);
-});
 
 module.exports = connectDB;

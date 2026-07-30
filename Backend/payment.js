@@ -1,3 +1,51 @@
+function processPayment(cardDetails) {
+  const { cardName, cardNumber, expiry, cvv, amount } = cardDetails;
+
+  // Basic validation
+  if (!cardName || !cardNumber || !expiry || !cvv) {
+    return { success: false, message: 'All card fields are required' };
+  }
+
+  // Validate card number (16 digits)
+  const cardNumClean = cardNumber.replace(/\s/g, '');
+  if (!/^\d{16}$/.test(cardNumClean)) {
+    return { success: false, message: 'Invalid card number. Must be 16 digits.' };
+  }
+
+  // Validate CVV (3 digits)
+  if (!/^\d{3}$/.test(cvv)) {
+    return { success: false, message: 'Invalid CVV. Must be 3 digits.' };
+  }
+
+  // Validate expiry (MM/YY format)
+  if (!/^\d{2}\/\d{2}$/.test(expiry)) {
+    return { success: false, message: 'Invalid expiry format. Use MM/YY.' };
+  }
+
+  const [month, year] = expiry.split('/').map(Number);
+  if (month < 1 || month > 12) {
+    return { success: false, message: 'Invalid expiry month.' };
+  }
+
+  // Simulate payment processing
+  const now = new Date();
+  const currentYear = now.getFullYear() % 100;
+  const currentMonth = now.getMonth() + 1;
+
+  if (year < currentYear || (year === currentYear && month < currentMonth)) {
+    return { success: false, message: 'Card has expired.' };
+  }
+
+  // Simulate successful payment
+  return {
+    success: true,
+    message: 'Payment successful',
+    transactionId: 'TXN' + Date.now() + Math.random().toString(36).substring(2, 8).toUpperCase(),
+    amount: amount,
+    processedAt: new Date().toISOString()
+  };
+}
+
 function getPaymentPage(destination = 'India', city = 'Selected City') {
   return `<!DOCTYPE html>
 <html lang="en">
@@ -60,4 +108,4 @@ function getPaymentPage(destination = 'India', city = 'Selected City') {
 </html>`;
 }
 
-module.exports = { getPaymentPage };
+module.exports = { getPaymentPage, processPayment };

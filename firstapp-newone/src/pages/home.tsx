@@ -1,8 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Navbar from "../component/Navbar";
 import Package from "../component/Package/Packagedetails";
 
-function Home() {
+interface HomeProps {
+  onNavigate: (page: "home" | "profile") => void;
+  currentPage: string;
+  user: { name: string; email: string } | null;
+}
+
+function Home({ onNavigate, currentPage, user }: HomeProps) {
   const [selectedState, setSelectedState] = useState<string | null>(null);
   const [showPackageDetails, setShowPackageDetails] = useState(false);
   const [showDirectBooking, setShowDirectBooking] = useState(false);
@@ -11,7 +17,6 @@ function Home() {
     city: string;
   }>({ destination: "", city: "" });
 
-  // Booking Flow Steps: "form" -> "summary" -> "payment" -> "success"
   const [bookingStep, setBookingStep] = useState<"form" | "summary" | "payment" | "success">("form");
 
   const [bookingData, setBookingData] = useState({
@@ -27,6 +32,7 @@ function Home() {
 
   const [bookingError, setBookingError] = useState("");
   const [calculatedPrice, setCalculatedPrice] = useState({ basePerPerson: 0, transportExtra: 0, total: 0 });
+  const [searchQuery, setSearchQuery] = useState("");
 
   const indianStates = [
     "Andhra Pradesh", "Arunachal Pradesh", "Assam", "Bihar", "Chhattisgarh",
@@ -61,11 +67,6 @@ function Home() {
       cities: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Darbhanga"],
     },
     {
-      state: "Chhattisgarh",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ0MQNjyr7LRcxMKOZS9MoZNiAU9HLvx2t5cm_EP82RYw&s=10",
-      cities: ["Raipur", "Bilaspur", "Jagdalpur", "Korba", "Rajnandgaon"],
-    },
-    {
       state: "Goa",
       image: "https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=400",
       cities: ["Panaji", "Margao", "Vasco da Gama", "Mapusa", "Anjuna"],
@@ -76,24 +77,9 @@ function Home() {
       cities: ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Dwarka"],
     },
     {
-      state: "Haryana",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4swPG6LyjPuQn6Ps8WcmG8PDZb0X3TYfD2JlnOrNJjQ&s=10",
-      cities: ["Gurugram", "Faridabad", "Chandigarh", "Hisar", "Karnal"],
-    },
-    {
       state: "Himachal Pradesh",
       image: "https://images.unsplash.com/photo-1626621341517-bbf3d9990a23?w=400",
       cities: ["Manali", "Shimla", "Dharamshala", "Kullu", "Spiti", "Chamba"],
-    },
-    {
-      state: "Jharkhand",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnyGj7CtrhjKbc6HFhWj6AFUO5o0K8oQuHtLVs9GYrsg&s=10",
-      cities: ["Ranchi", "Jamshedpur", "Dhanbad", "Deoghar", "Hazaribagh"],
-    },
-    {
-      state: "Karnataka",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShi2rRL3NScaj9qlE4jKBhzYLM2JQJZUHIqD8An9uOnw&s=10",
-      cities: ["Bengaluru", "Mysuru", "Mangaluru", "Hubballi", "Coorg", "Hampi"],
     },
     {
       state: "Kerala",
@@ -101,124 +87,14 @@ function Home() {
       cities: ["Kochi", "Alleppey", "Munnar", "Kumarakom", "Thekkady", "Kovalam"],
     },
     {
-      state: "Madhya Pradesh",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQg6P12JjyPUHaGmEpWju74IvaASK25FZRsBCkttimd4Q&s=10",
-      cities: ["Bhopal", "Indore", "Gwalior", "Jabalpur", "Ujjain", "Khajuraho"],
-    },
-    {
       state: "Maharashtra",
       image: "https://images.unsplash.com/photo-1567157577867-05ccb1388e66?w=400",
       cities: ["Mumbai", "Pune", "Mahabaleshwar", "Nashik", "Aurangabad", "Nagpur"],
     },
     {
-      state: "Manipur",
-      image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400",
-      cities: ["Imphal", "Bishnupur", "Thoubal", "Churachandpur", "Ukhrul", "Senapati"],
-    },
-    {
-      state: "Meghalaya",
-      image: "https://images.unsplash.com/photo-1589182373726-e4f658ab50f0?w=400",
-      cities: ["Shillong", "Cherrapunji", "Tura", "Jowai", "Nongpoh", "Mawlynnong"],
-    },
-    {
-      state: "Mizoram",
-      image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=400",
-      cities: ["Aizawl", "Lunglei", "Champhai", "Serchhip", "Kolasib", "Lawngtlai"],
-    },
-    {
-      state: "Nagaland",
-      image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?w=400",
-      cities: ["Kohima", "Dimapur", "Mokokchung", "Tuensang", "Wokha", "Zunheboto"],
-    },
-    {
-      state: "Odisha",
-      image: "https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?w=400",
-      cities: ["Bhubaneswar", "Puri", "Cuttack", "Rourkela", "Sambalpur", "Konark"],
-    },
-    {
-      state: "Punjab",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6XAm9wfR5iMQfXUhlq3aK9YgsXP2jUbes68daIMB0nA&s",
-      cities: ["Amritsar", "Ludhiana", "Jalandhar", "Chandigarh", "Patiala"],
-    },
-    {
       state: "Rajasthan",
       image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRJ3Y2ebTaO1Rx_UOXy560q5kPFY8qJcA4iIVGEA3axUQ&s",
       cities: ["Jaipur", "Udaipur", "Jodhpur", "Jaisalmer", "Bikaner", "Mount Abu"],
-    },
-    {
-      state: "Sikkim",
-      image: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?w=400",
-      cities: ["Gangtok", "Pelling", "Namchi", "Ravangla", "Yuksom", "Lachung"],
-    },
-    {
-      state: "Tamil Nadu",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQPahOiKaAWOrpNwSTUg_xUZYer_PHFdBWOk4rXTN3wYQ&s=10",
-      cities: ["Chennai", "Coimbatore", "Madurai", "Ooty", "Kodaikanal", "Rameswaram"],
-    },
-    {
-      state: "Telangana",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiJRZIE6vhEAzfbW6mxd0dmhoxN51Dk8N8O_QXqRmO9w&s",
-      cities: ["Hyderabad", "Warangal", "Karimnagar", "Nizamabad", "Khammam", "Ramagundam"],
-    },
-    {
-      state: "Tripura",
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400",
-      cities: ["Agartala", "Udaipur", "Dharmanagar", "Kailashahar", "Belonia", "Sabroom"],
-    },
-    {
-      state: "Uttar Pradesh",
-      image: "https://images.unsplash.com/photo-1564507592333-c60657eea523?w=400",
-      cities: ["Lucknow", "Agra", "Varanasi", "Prayagraj", "Noida", "Ayodhya"],
-    },
-    {
-      state: "Uttarakhand",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToQHjYkWeNjN3Z7mgdqmo1A2p4HyyHLkNvYshuaj_vUw&s=10",
-      cities: ["Dehradun", "Nainital", "Mussoorie", "Rishikesh", "Haridwar", "Auli"],
-    },
-    {
-      state: "West Bengal",
-      image: "https://s7ap1.scene7.com/is/image/incredibleindia/lord-buddha-statue-2-kalimpong-wb-city-hero?qlt=82&ts=1726645084728",
-      cities: ["Kolkata", "Darjeeling", "Durgapur", "Siliguri", "Shantiniketan", "Kalimpong"],
-    },
-    {
-      state: "Delhi",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXQ3EmmxFPmj3QUtXlHyWGA2P1DnBRMJQuF0PzPd16TQ&s=10",
-      cities: ["New Delhi", "Old Delhi", "Dwarka", "Rohini", "Lajpat Nagar", "Karol Bagh"],
-    },
-    {
-      state: "Jammu & Kashmir",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSKaUOllBfDNOeS-tIi1w3MtHEnz-xCTdDFhpwZku5Qg&s=10",
-      cities: ["Srinagar", "Jammu", "Pahalgam", "Gulmarg", "Sonamarg", "Katra"],
-    },
-    {
-      state: "Ladakh",
-      image: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=400",
-      cities: ["Leh", "Kargil", "Nubra", "Zanskar", "Dras", "Padum"],
-    },
-    {
-      state: "Puducherry",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1sJI2rXSnjTDYqnj4B3MNjVplhgwWf1jEkVrIUMp9jA&s=10",
-      cities: ["Puducherry", "Karaikal", "Yanam", "Mahe"],
-    },
-    {
-      state: "Andaman & Nicobar",
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400",
-      cities: ["Port Blair", "Havelock", "Neil Island", "Diglipur"],
-    },
-    {
-      state: "Chandigarh",
-      image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=400",
-      cities: ["Chandigarh", "Mohali", "Panchkula"],
-    },
-    {
-      state: "Dadra & Nagar Haveli and Daman & Diu",
-      image: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400",
-      cities: ["Silvassa", "Daman", "Diu"],
-    },
-    {
-      state: "Lakshadweep",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKrhfskL_N1XqqW3RHMjGWC_UOZLhPbpjTMImNITF1dQ&s=10",
-      cities: ["Kavaratti", "Minicoy", "Agatti", "Bangaram"],
     },
   ];
 
@@ -319,12 +195,23 @@ function Home() {
     setBookingStep("summary");
   };
 
+  // Direct transition to success screen without calling backend server
+  const handlePaymentSuccess = () => {
+    setBookingError("");
+    setBookingStep("success");
+  };
+
+  const filteredStates = stateCities.filter((item) =>
+    item.state.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   const renderContent = () => {
     if (showDirectBooking) {
       return (
         <div className="home-content" style={{ padding: "40px 20px", display: "flex", justifyContent: "center" }}>
           <div style={{ background: "white", padding: "30px", borderRadius: "10px", width: "100%", maxWidth: "520px", boxShadow: "0 4px 15px rgba(0,0,0,0.1)", color: "#333" }}>
             
+            {/* Step 1: Form */}
             {bookingStep === "form" && (
               <>
                 <h2 style={{ textAlign: "center", marginBottom: "20px" }}>Book Your Trip</h2>
@@ -418,9 +305,6 @@ function Home() {
                         Flight (Fast & Premium) {getTransportOptionPrice("Flight") !== null ? `— (+₹${getTransportOptionPrice("Flight")}/person)` : ""}
                       </option>
                     </select>
-                    {!bookingData.departure || !bookingData.destinationState ? (
-                      <small style={{ color: "#777", marginTop: "4px", display: "block" }}>* Select departure and destination states to view transport prices.</small>
-                    ) : null}
                   </div>
 
                   <div>
@@ -454,6 +338,7 @@ function Home() {
               </>
             )}
 
+            {/* Step 2: Summary */}
             {bookingStep === "summary" && (
               <>
                 <h2 style={{ textAlign: "center", marginBottom: "15px" }}>Booking Summary</h2>
@@ -465,8 +350,8 @@ function Home() {
                   <p><strong>Travelers:</strong> {bookingData.travelers} Persons</p>
                   <p><strong>Transport Mode:</strong> {bookingData.transportMode}</p>
                   <hr style={{ border: "0", borderTop: "1px solid #ddd", margin: "5px 0" }} />
-                  <p><strong>Base Package / Person ({bookingData.departure} to {bookingData.destinationState}):</strong> ₹{calculatedPrice.basePerPerson}</p>
-                  <p><strong>Transport Fee / Person ({bookingData.transportMode}):</strong> ₹{calculatedPrice.transportExtra}</p>
+                  <p><strong>Base Package / Person:</strong> ₹{calculatedPrice.basePerPerson}</p>
+                  <p><strong>Transport Fee / Person:</strong> ₹{calculatedPrice.transportExtra}</p>
                   <h3 style={{ color: "#ff4757", marginTop: "5px" }}>Total Price: ₹{calculatedPrice.total}</h3>
                 </div>
 
@@ -477,14 +362,14 @@ function Home() {
               </>
             )}
 
-            {/* Step 3: Integrated Custom Payment Page UI */}
+            {/* Step 3: Payment */}
             {bookingStep === "payment" && (
               <div>
-                <h2 style={{ marginTop: 0, color: "#0f172a" }}>Mehak Travels Payment</h2>
-                <div style={{ margin: "16px 0", padding: "12px", background: "#eff6ff", borderRadius: "8px", color: "#1d4ed8" }}>
-                  <strong>Destination:</strong> {bookingData.destinationState}<br />
+                <h2 style={{ textAlign: "center", marginBottom: "15px" }}>Payment Details</h2>
+                <div style={{ background: "#f8f9fa", padding: "10px 15px", borderRadius: "8px", marginBottom: "15px" }}>
                   <strong>Total Amount:</strong> ₹{calculatedPrice.total}
                 </div>
+                
                 <label style={{ display: "block", marginTop: "12px", fontWeight: "600", color: "#334155" }}>Cardholder Name</label>
                 <input type="text" placeholder="John Doe" style={{ width: "100%", padding: "10px", marginTop: "6px", border: "1px solid #cbd5e1", borderRadius: "8px", boxSizing: "border-box" }} />
                 
@@ -497,17 +382,18 @@ function Home() {
                 <label style={{ display: "block", marginTop: "12px", fontWeight: "600", color: "#334155" }}>CVV</label>
                 <input type="password" maxLength={4} placeholder="123" style={{ width: "100%", padding: "10px", marginTop: "6px", border: "1px solid #cbd5e1", borderRadius: "8px", boxSizing: "border-box" }} />
                 
-                <button onClick={() => setBookingStep("success")} style={{ marginTop: "18px", width: "100%", padding: "12px", border: "none", borderRadius: "8px", background: "#2563eb", color: "white", fontSize: "16px", cursor: "pointer", fontWeight: "bold" }}>Pay Now</button>
+                <button onClick={handlePaymentSuccess} style={{ marginTop: "18px", width: "100%", padding: "12px", border: "none", borderRadius: "8px", background: "#2563eb", color: "white", fontSize: "16px", cursor: "pointer", fontWeight: "bold" }}>Pay Now</button>
                 <button onClick={() => setBookingStep("summary")} style={{ marginTop: "10px", width: "100%", padding: "10px", border: "none", borderRadius: "8px", background: "#ccc", color: "#333", cursor: "pointer" }}>Back to Summary</button>
               </div>
             )}
 
+            {/* Step 4: Success */}
             {bookingStep === "success" && (
-              <div style={{ textAlign: "center", padding: "10px 0" }}>
+              <div style={{ textAlign: "center" }}>
                 <div style={{ fontSize: "50px", color: "green", marginBottom: "10px" }}>✔</div>
                 <h2 style={{ color: "green", marginBottom: "10px" }}>Payment Successful</h2>
-                <p style={{ color: "#334155", marginBottom: "20px" }}>Your trip booking is confirmed. Thank you, {bookingData.name}!</p>
-                <button onClick={resetAll} style={{ padding: "12px 25px", background: "#ff4757", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" }}>Back to Home</button>
+                <p style={{ color: "#334155", marginBottom: "20px" }}>Your trip booking is confirmed. Thank you, {bookingData.name || "Customer"}!</p>
+                <button onClick={resetAll} style={{ padding: "10px 20px", background: "#2563eb", color: "white", border: "none", borderRadius: "5px", cursor: "pointer" }}>Back to Home</button>
               </div>
             )}
 
@@ -538,17 +424,16 @@ function Home() {
             backgroundImage: stateObj ? `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url(${stateObj.image})` : "none",
             backgroundSize: "cover",
             backgroundPosition: "center",
-            backgroundAttachment: "fixed",
             minHeight: "100vh",
             color: "white"
           }}
         >
           <div className="home-container">
             <div style={{ textAlign: "center", padding: "20px 0" }}>
-              <h1 style={{ fontSize: "40px", margin: "0 0 10px 0", textShadow: "2px 2px 6px rgba(0,0,0,0.8)" }}>
+              <h1 style={{ fontSize: "40px", margin: "0 0 10px 0" }}>
                 {selectedState}
               </h1>
-              <p style={{ fontSize: "18px", margin: 0, textShadow: "1px 1px 4px rgba(0,0,0,0.8)" }}>
+              <p style={{ fontSize: "18px", margin: 0 }}>
                 Select any city below to explore available tour packages.
               </p>
             </div>
@@ -566,13 +451,6 @@ function Home() {
                 </div>
               ))}
             </div>
-
-            <button 
-              onClick={() => setSelectedState(null)} 
-              style={{ marginTop: "30px", padding: "12px 25px", cursor: "pointer", fontWeight: "bold" }}
-            >
-              Back to Home
-            </button>
           </div>
         </div>
       );
@@ -592,21 +470,14 @@ function Home() {
             borderRadius: "0 0 15px 15px"
           }}
         >
-          <h1 style={{ fontSize: "45px", margin: "0 0 15px 0", textShadow: "2px 2px 6px rgba(0,0,0,0.8)" }}>
+          <h1 style={{ fontSize: "45px", margin: "0 0 15px 0" }}>
             Welcome To Mehak Travels
           </h1>
-          <h2 style={{ fontSize: "24px", margin: "0 0 20px 0", fontWeight: "normal", textShadow: "1px 1px 4px rgba(0,0,0,0.8)" }}>
-            Explore Your Dream Destination
-          </h2>
-          <p style={{ maxWidth: "600px", margin: "0 auto 25px auto", fontSize: "16px", textShadow: "1px 1px 3px rgba(0,0,0,0.8)" }}>
-            Discover the best places to visit with exciting Mehak Travels packages at affordable prices. Plan your trip with us and make your journey memorable.
-          </p>
           <button 
-            className="book-btn" 
             onClick={() => setShowDirectBooking(true)}
-            style={{ padding: "12px 30px", fontSize: "16px", fontWeight: "bold", cursor: "pointer", background: "#ff4757", color: "white", border: "none", borderRadius: "5px" }}
+            style={{ marginTop: "15px", padding: "12px 24px", fontSize: "16px", background: "#ff4757", color: "white", border: "none", borderRadius: "8px", cursor: "pointer", fontWeight: "bold" }}
           >
-            Book Now
+            Book Custom Trip Directly
           </button>
         </div>
 
@@ -630,7 +501,7 @@ function Home() {
           <h2 className="popular-heading">Explore States of India</h2>
 
           <div className="destination-container">
-            {stateCities.map((item, index) => (
+            {(searchQuery ? filteredStates : stateCities).map((item, index) => (
               <div
                 key={index}
                 className="destination-card"
@@ -649,7 +520,7 @@ function Home() {
 
   return (
     <div className="app-layout">
-      <Navbar />
+      <Navbar onNavigate={onNavigate} currentPage={currentPage} searchQuery={searchQuery} onSearchChange={setSearchQuery} showSearch={true} onHomeClick={resetAll} />
       {renderContent()}
     </div>
   );

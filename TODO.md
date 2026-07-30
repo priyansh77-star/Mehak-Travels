@@ -1,18 +1,28 @@
-# Task: Update Package Data
+# TODO: Save Bookings to MongoDB & Show in Profile
 
-## Changes to firstapp-newone/src/component/Package/Packagedetails.tsx
+## Task
+When user clicks Profile button in Navbar, show bookings saved in MongoDB.
 
-### Step 1: Remove `transport` field from the type definition
-- Edit line 3 to remove `transport: string;` from the type interface
+## Steps
 
-### Step 2: Normalize all price strings to "9999 per person" format
-- Remove ₹ symbol and commas from prices
-- Ensure all prices have "per person" suffix
-- Example: `"₹12,999 per person"` → `"12999 per person"`, `"₹12,999"` → `"12999 per person"`
+### 1. home.tsx - Save Direct Booking to MongoDB
+- Add useEffect to call POST /api/bookings when `bookingStep === "success"`
+- Use `user?.email` to associate booking with logged-in user
+- Pass `userEmail` prop to Package component
 
-### Step 3: Remove `transport` field from every package object
-- Remove `transport: "Bus"`, `transport: "Flight"`, etc. from all entries
+### 2. Packagedetails.tsx - Save Package Booking to MongoDB
+- Add `userEmail` prop to interface
+- Add useEffect to call POST /api/bookings when `step === 5` (success)
+- Include package details, destination, transport info
 
-### Step 4: Remove transport display line in JSX
-- Remove `<p><b>Transport:</b> {pkg.transport}</p>`
+### 3. BookingSuccess.tsx - Save Booking Form Flow to MongoDB
+- Accept optional bookingData prop
+- Add useEffect to save booking to MongoDB on mount when bookingData provided
+
+### 4. Bookingsummary.tsx - Pass Booking Data to BookingSuccess
+- Pass formData to BookingSuccess component
+
+### 5. Test
+- Verify backend is running
+- Test booking and check profile page
 

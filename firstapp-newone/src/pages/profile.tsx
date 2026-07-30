@@ -110,9 +110,6 @@ function ProfilePage({ user, showBookingsOnly = false, onBackToHome }: ProfilePr
               </div>
             )}
 
-            <button style={{ marginTop: "16px" }} onClick={onBackToHome}>
-              Back to Home
-            </button>
           </div>
         </div>
       </div>

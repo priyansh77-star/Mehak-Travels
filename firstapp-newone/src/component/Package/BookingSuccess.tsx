@@ -39,12 +39,6 @@ function BookingSuccess({
         <p>Have a safe and happy journey! </p>
          <p>For Further Query Contact us at mehaktravels21@gmail.com</p>
          
-        <br />
-
-        <button onClick={onBackToHome}>
-          Back to Home
-        </button>
-
       </div>
     </div>
     </div>

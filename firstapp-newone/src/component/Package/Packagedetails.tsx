@@ -178,7 +178,13 @@ export default function PackageDetails({ state, destination, city, onBack }: Pac
   
   const [travelDate, setTravelDate] = useState<string>("");
   const [returnDate, setReturnDate] = useState<string>("");
-  const [paymentMethod, setPaymentMethod] = useState<string>("upi");
+  const [paymentMethod, setPaymentMethod] = useState<string>("card");
+  const [cardName, setCardName] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentError, setPaymentError] = useState("");
 
   // Clean and identify target selection (prioritizing city if provided, else destination/state)
   const rawInput = (city || destination || state || "Goa").trim();
@@ -227,13 +233,57 @@ export default function PackageDetails({ state, destination, city, onBack }: Pac
   const basePerPerson = selectedPackage ? selectedPackage.basePrice + transportFare + localSightseeingCost : 0;
   const grandTotal = basePerPerson * passengers;
 
+  // 💾 SAVE BOOKING DIRECTLY TO MONGO DB
+  const handlePaymentAndSave = async () => {
+    setPaymentError("");
+
+    if (paymentMethod === "card" && (!cardName || !cardNumber || !expiry || !cvv)) {
+      setPaymentError("Please fill in all card details.");
+      return;
+    }
+
+    setPaymentLoading(true);
+
+    const bookingPayload = {
+      name: cardName || "Customer",
+      age: 25,
+      gender: "Unspecified",
+      email: cardName ? `${cardName.toLowerCase().replace(/\s+/g, '')}@gmail.com` : "customer@mehak-travels.com",
+      packageType: `${selectedPackage.title} (${selectedPackage.category}) - ${selectedPackage.destination}`,
+      noOfTraveller: Number(passengers),
+      phone: "9876543210",
+      travelDate: `${travelDate} to ${returnDate}`,
+      transportMode: transportMode.toUpperCase(),
+      totalPrice: grandTotal,
+    };
+
+    try {
+      const response = await fetch("http://127.0.0.1:5000/api/bookings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingPayload),
+      });
+
+      const data = await response.json();
+
+      if (response.ok && data.success) {
+        console.log("✅ Successfully saved package booking to MongoDB:", data);
+        setStep(5);
+      } else {
+        console.error("❌ MongoDB Save Error:", data);
+        setPaymentError(`Database Save Failed: ${data.message || "Server Error"}`);
+      }
+    } catch (err) {
+      console.error("❌ Network error connecting to backend:", err);
+      setPaymentError("Unable to connect to backend server. Make sure node server.js is running on port 5000.");
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
   return (
     <div className="package-flow-container" style={{ padding: "20px", maxWidth: "800px", margin: "auto" }}>
       
-      <button onClick={onBack} style={{ marginBottom: "15px", cursor: "pointer" }}>
-        Back to Home
-      </button>
-
       {/* ================= STEP 1: PACKAGE SELECTION ================= */}
       {step === 1 && (
         <div className="step-page">
@@ -260,6 +310,7 @@ export default function PackageDetails({ state, destination, city, onBack }: Pac
               </div>
             ))}
           </div>
+          <button onClick={onBack} style={{ marginTop: "20px", padding: "8px 16px", cursor: "pointer" }}>Back to Destinations</button>
         </div>
       )}
 
@@ -437,32 +488,86 @@ export default function PackageDetails({ state, destination, city, onBack }: Pac
         <div className="step-page">
           <h2>Payment Gateway</h2>
           <div style={{ border: "1px solid #ddd", padding: "20px", borderRadius: "8px", background: "#fdfdfd", marginBottom: "20px" }}>
-            <h3>Amount to Pay: ₹{grandTotal}</h3>
-            <p>Select your payment mode:</p>
+            <h3>Amount to Pay: ₹{grandTotal.toLocaleString()}</h3>
+            <p>Pay securely with your card:</p>
             
             <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "10px" }}>
-              <label style={{ cursor: "pointer" }}>
-                <input type="radio" name="payment" value="upi" checked={paymentMethod === "upi"} onChange={(e) => setPaymentMethod(e.target.value)} /> UPI / QR Code (GPay, PhonePe, Paytm)
-              </label>
-              
-              {/* Highlighted Card Option */}
+              {/* Credit or Debit Card Option */}
               <label style={{ cursor: "pointer", background: "#e2e8f0", padding: "10px", borderRadius: "6px", border: "1px solid #cbd5e1" }}>
                 <input type="radio" name="payment" value="card" checked={paymentMethod === "card"} onChange={(e) => setPaymentMethod(e.target.value)} /> Credit or Debit Card
               </label>
 
-              <label style={{ cursor: "pointer" }}>
-                <input type="radio" name="payment" value="netbanking" checked={paymentMethod === "netbanking"} onChange={(e) => setPaymentMethod(e.target.value)} /> Net Banking
-              </label>
+              {/* Card Input Fields */}
+              {paymentMethod === "card" && (
+                <div style={{ marginTop: "12px" }}>
+                  <label>Cardholder Name</label>
+                  <input
+                    type="text"
+                    value={cardName}
+                    onChange={(e) => setCardName(e.target.value)}
+                    placeholder="John Doe"
+                    style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px", marginBottom: "10px", border: "1px solid #cbd5e1", borderRadius: "6px" }}
+                  />
+                  <label>Card Number</label>
+                  <input
+                    type="text"
+                    value={cardNumber}
+                    onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, '').replace(/(\d{4})/g, '$1 ').trim().slice(0, 19))}
+                    placeholder="4242 4242 4242 4242"
+                    style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px", marginBottom: "10px", border: "1px solid #cbd5e1", borderRadius: "6px" }}
+                  />
+                  <div style={{ display: "flex", gap: "10px" }}>
+                    <div style={{ flex: 1 }}>
+                      <label>Expiry</label>
+                      <input
+                        type="text"
+                        value={expiry}
+                        onChange={(e) => {
+                          let val = e.target.value.replace(/\D/g, '');
+                          if (val.length >= 2) val = val.slice(0, 2) + '/' + val.slice(2, 4);
+                          setExpiry(val);
+                        }}
+                        placeholder="MM/YY"
+                        style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px", border: "1px solid #cbd5e1", borderRadius: "6px" }}
+                      />
+                    </div>
+                    <div style={{ flex: 1 }}>
+                      <label>CVV</label>
+                      <input
+                        type="text"
+                        value={cvv}
+                        onChange={(e) => setCvv(e.target.value.replace(/\D/g, '').slice(0, 3))}
+                        placeholder="123"
+                        style={{ display: "block", width: "100%", padding: "8px", marginTop: "4px", border: "1px solid #cbd5e1", borderRadius: "6px" }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
+
+            {paymentError && (
+              <div style={{ marginTop: "10px", padding: "8px", background: "#fee2e2", color: "#dc2626", borderRadius: "6px", fontSize: "14px" }}>
+                {paymentError}
+              </div>
+            )}
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>
             <button onClick={() => setStep(3)} style={{ padding: "10px 20px", cursor: "pointer" }}>Back</button>
             <button 
-              onClick={() => setStep(5)} 
-              style={{ background: "#28a745", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer" }}
+              onClick={handlePaymentAndSave}
+              disabled={paymentLoading}
+              style={{ 
+                background: paymentLoading ? "#94a3b8" : "#28a745", 
+                color: "white", 
+                border: "none", 
+                padding: "10px 20px", 
+                borderRadius: "4px", 
+                cursor: paymentLoading ? "not-allowed" : "pointer" 
+              }}
             >
-              Pay ₹{grandTotal} and Confirm
+              {paymentLoading ? "Saving to MongoDB..." : `Pay ₹${grandTotal.toLocaleString()} and Confirm`}
             </button>
           </div>
         </div>
@@ -479,9 +584,9 @@ export default function PackageDetails({ state, destination, city, onBack }: Pac
           
           <button 
             onClick={onBack} 
-            style={{ background: "#007bff", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer", marginTop: "20px" }}
+            style={{ marginTop: "20px", background: "#007bff", color: "white", border: "none", padding: "10px 20px", borderRadius: "4px", cursor: "pointer" }}
           >
-            Go Back to Home
+            Back to Home
           </button>
         </div>
       )}
